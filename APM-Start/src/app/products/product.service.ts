@@ -9,21 +9,23 @@ import { Supplier } from '../suppliers/supplier';
 import { SupplierService } from '../suppliers/supplier.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
+  // change to bad url to test error handling
   private productsUrl = 'api/products';
   private suppliersUrl = this.supplierService.suppliersUrl;
 
-  constructor(private http: HttpClient,
-              private supplierService: SupplierService) { }
+  constructor(
+    private http: HttpClient,
+    private supplierService: SupplierService
+  ) {}
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.productsUrl)
-      .pipe(
-        tap(data => console.log('Products: ', JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+    return this.http.get<Product[]>(this.productsUrl).pipe(
+      tap((data) => console.log('Products: ', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
 
   private fakeProduct(): Product {
@@ -35,7 +37,7 @@ export class ProductService {
       price: 8.9,
       categoryId: 3,
       // category: 'Toolbox',
-      quantityInStock: 30
+      quantityInStock: 30,
     };
   }
 
@@ -54,5 +56,4 @@ export class ProductService {
     console.error(err);
     return throwError(errorMessage);
   }
-
 }
